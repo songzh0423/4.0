@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宋子浩 · 个人主页</title>
+<style>
+  :root{
+    --bg: #f7f8fc;
+    --card: #ffffff;
+    --text: #1a1d26;
+    --text-sub: #6b7280;
+    --line: #e8eaf0;
+    --accent: #5b7cfa;
+    --accent-2: #8b6bf0;
+    --accent-soft: #eef1fe;
+    --shadow: 0 2px 8px rgba(26,29,38,.04), 0 8px 28px rgba(26,29,38,.06);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:48px 20px 64px;
+  }
+  /* 背景光斑 */
+  body::before,body::after{
+    content:"";
+    position:fixed;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.5;
+    pointer-events:none;
+    z-index:0;
+  }
+  body::before{width:420px;height:420px;background:#cdd8ff;top:-140px;left:-120px}
+  body::after{width:380px;height:380px;background:#e6d9ff;bottom:-160px;right:-100px}
+
+  .wrap{max-width:860px;margin:0 auto;position:relative;z-index:1}
+
+  /* ===== 顶部名片 ===== */
+  .profile{
+    background:var(--card);
+    border-radius:24px;
+    padding:44px 40px;
+    box-shadow:var(--shadow);
+    display:flex;
+    align-items:center;
+    gap:32px;
+    flex-wrap:wrap;
+    animation:rise .7s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .avatar{
+    width:104px;height:104px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:flex;align-items:center;justify-content:center;
+    font-size:40px;font-weight:600;color:#fff;
+    letter-spacing:1px;
+    flex-shrink:0;
+    box-shadow:0 10px 24px rgba(91,124,250,.32);
+  }
+  .profile-main{flex:1;min-width:220px}
+  .name{
+    font-size:34px;
+    font-weight:700;
+    letter-spacing:2px;
+    margin-bottom:6px;
+  }
+  .name span{
+    font-size:14px;
+    font-weight:500;
+    color:var(--text-sub);
+    letter-spacing:1px;
+    margin-left:10px;
+    vertical-align:middle;
+  }
+  .subtitle{
+    color:var(--text-sub);
+    font-size:15px;
+    margin-bottom:16px;
+  }
+  .tags{display:flex;gap:8px;flex-wrap:wrap}
+  .tag{
+    background:var(--accent-soft);
+    color:var(--accent);
+    font-size:13px;
+    padding:5px 13px;
+    border-radius:999px;
+    font-weight:500;
+  }
+
+  /* ===== 卡片通用 ===== */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-top:20px;
+  }
+  .card{
+    background:var(--card);
+    border-radius:20px;
+    padding:28px 30px;
+    box-shadow:var(--shadow);
+    animation:rise .7s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .card.full{grid-column:1/-1}
+  .card-title{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:15px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:18px;
+    letter-spacing:.5px;
+  }
+  .card-title::before{
+    content:"";
+    width:4px;height:16px;
+    border-radius:2px;
+    background:linear-gradient(180deg,var(--accent),var(--accent-2));
+  }
+  .card:nth-child(1){animation-delay:.05s}
+  .card:nth-child(2){animation-delay:.12s}
+  .card:nth-child(3){animation-delay:.19s}
+  .card:nth-child(4){animation-delay:.26s}
+
+  /* 信息行 */
+  .info-row{
+    display:flex;
+    gap:14px;
+    padding:11px 0;
+    border-bottom:1px dashed var(--line);
+    font-size:15px;
+  }
+  .info-row:last-child{border-bottom:none;padding-bottom:0}
+  .info-row:first-child{padding-top:0}
+  .info-label{color:var(--text-sub);width:56px;flex-shrink:0}
+  .info-value{color:var(--text);font-weight:500}
+
+  /* 兴趣爱好 */
+  .hobby-list{display:flex;flex-direction:column;gap:14px}
+  .hobby{
+    display:flex;align-items:flex-start;gap:12px;
+  }
+  .hobby-icon{
+    width:34px;height:34px;
+    border-radius:10px;
+    background:var(--accent-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;
+    flex-shrink:0;
+  }
+  .hobby-body strong{display:block;font-size:14px;font-weight:600;margin-bottom:1px}
+  .hobby-body p{font-size:13.5px;color:var(--text-sub);line-height:1.55}
+
+  /* 游戏列表 */
+  .games{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .game{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:10px 14px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--text);
+    background:#fcfcfe;
+    transition:.2s;
+  }
+  .game:hover{
+    border-color:#c9d4ff;
+    background:var(--accent-soft);
+    color:var(--accent);
+    transform:translateY(-2px);
+  }
+
+  /* 联系方式 */
+  .contact{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    background:linear-gradient(135deg,#f0f3ff,#f7f2ff);
+    border-radius:14px;
+    padding:18px 20px;
+    flex-wrap:wrap;
+  }
+  .contact-left{display:flex;align-items:center;gap:12px}
+  .qq-badge{
+    width:40px;height:40px;
+    border-radius:12px;
+    background:var(--accent);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;
+    flex-shrink:0;
+  }
+  .contact-label{font-size:12.5px;color:var(--text-sub);line-height:1.3}
+  .contact-num{font-size:19px;font-weight:700;letter-spacing:1px;font-variant-numeric:tabular-nums}
+  .copy-btn{
+    border:none;
+    background:var(--text);
+    color:#fff;
+    font-size:13px;
+    font-weight:500;
+    padding:9px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-family:inherit;
+    transition:.2s;
+  }
+  .copy-btn:hover{background:var(--accent);transform:translateY(-1px)}
+  .copy-btn.done{background:#3aa76d}
+
+  footer{
+    text-align:center;
+    color:#a3a8b5;
+    font-size:12.5px;
+    margin-top:36px;
+    letter-spacing:.5px;
+  }
+
+  @keyframes rise{
+    from{opacity:0;transform:translateY(16px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  @media (max-width:640px){
+    body{padding:28px 14px 44px}
+    .profile{padding:32px 24px;gap:20px;text-align:center;justify-content:center}
+    .profile-main{text-align:center}
+    .tags{justify-content:center}
+    .name{font-size:28px}
+    .name span{display:block;margin:4px 0 0}
+    .grid{grid-template-columns:1fr}
+    .card{padding:24px 22px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 名片 -->
+  <header class="profile">
+    <div class="avatar">宋</div>
+    <div class="profile-main">
+      <h1 class="name">宋子浩<span>Song Zihao</span></h1>
+      <p class="subtitle">上海外国语大学 · 数据科学与大数据技术</p>
+      <div class="tags">
+        <span class="tag">数据科学</span>
+        <span class="tag">大数据</span>
+        <span class="tag">篮球</span>
+        <span class="tag">游戏玩家</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- 基本信息 -->
+    <section class="card">
+      <h2 class="card-title">基本信息</h2>
+      <div class="info-row">
+        <div class="info-label">姓名</div>
+        <div class="info-value">宋子浩</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">学校</div>
+        <div class="info-value">上海外国语大学</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">专业</div>
+        <div class="info-value">数据科学与大数据技术</div>
+      </div>
+    </section>
+
+    <!-- 兴趣爱好 -->
+    <section class="card">
+      <h2 class="card-title">兴趣爱好</h2>
+      <div class="hobby-list">
+        <div class="hobby">
+          <div class="hobby-icon">🏀</div>
+          <div class="hobby-body">
+            <strong>篮球</strong>
+            <p>喜欢在球场上跑起来的感觉，团队配合最有意思</p>
+          </div>
+        </div>
+        <div class="hobby">
+          <div class="hobby-icon">🏸</div>
+          <div class="hobby-body">
+            <strong>羽毛球</strong>
+            <p>周末常约朋友打两局，技术和体力都在线</p>
+          </div>
+        </div>
+        <div class="hobby">
+          <div class="hobby-icon">🎮</div>
+          <div class="hobby-body">
+            <strong>电子游戏</strong>
+            <p>射击、开放世界、回合制都玩，涉猎比较广</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 常玩游戏 -->
+    <section class="card full">
+      <h2 class="card-title">常玩的游戏</h2>
+      <div class="games">
+        <span class="game">三角洲行动</span>
+        <span class="game">原神</span>
+        <span class="game">崩坏：星穹铁道</span>
+      </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section class="card full">
+      <h2 class="card-title">联系方式</h2>
+      <div class="contact">
+        <div class="contact-left">
+          <div class="qq-badge">QQ</div>
+          <div>
+            <div class="contact-label">QQ 号 · 欢迎来聊</div>
+            <div class="contact-num" id="qq">3410202979</div>
+          </div>
+        </div>
+        <button class="copy-btn" id="copyBtn" onclick="copyQQ()">复制 QQ 号</button>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>© 2026 宋子浩 · 保持好奇，持续进步</footer>
+
+</div>
+
+<script>
+function copyQQ(){
+  const num = document.getElementById('qq').textContent.trim();
+  const btn = document.getElementById('copyBtn');
+  const done = () => {
+    btn.textContent = '已复制 ✓';
+    btn.classList.add('done');
+    setTimeout(() => {
+      btn.textContent = '复制 QQ 号';
+      btn.classList.remove('done');
+    }, 1800);
+  };
+  if (navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(num).then(done).catch(fallback);
+  } else {
+    fallback();
+  }
+  function fallback(){
+    const ta = document.createElement('textarea');
+    ta.value = num;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch(e){ alert('QQ 号：' + num); }
+    document.body.removeChild(ta);
+  }
+}
+</script>
+</body>
+</html>
