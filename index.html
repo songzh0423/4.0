@@ -25,7 +25,7 @@
     line-height:1.7;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
-    padding:48px 20px 64px;
+    padding:0 20px 64px;
   }
   /* 背景光斑 */
   body::before,body::after{
@@ -40,7 +40,87 @@
   body::before{width:420px;height:420px;background:#cdd8ff;top:-140px;left:-120px}
   body::after{width:380px;height:380px;background:#e6d9ff;bottom:-160px;right:-100px}
 
-  .wrap{max-width:860px;margin:0 auto;position:relative;z-index:1}
+  .wrap{max-width:860px;margin:0 auto;position:relative;z-index:1;padding-top:32px}
+
+  /* ===== 导航栏 ===== */
+  .nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    margin:0 -20px;
+    background:rgba(247,248,252,.72);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    backdrop-filter:saturate(180%) blur(14px);
+    border-bottom:1px solid transparent;
+    transition:background .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .nav.scrolled{
+    background:rgba(247,248,252,.9);
+    border-bottom-color:var(--line);
+    box-shadow:0 4px 20px rgba(26,29,38,.05);
+  }
+  .nav-inner{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 20px;
+    height:62px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .nav-brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:1px;
+    color:var(--text);
+    text-decoration:none;
+    flex-shrink:0;
+  }
+  .nav-dot{
+    width:8px;height:8px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    box-shadow:0 0 0 3px rgba(91,124,250,.14);
+  }
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    list-style:none;
+    margin-left:auto;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{
+    display:block;
+    padding:7px 14px;
+    font-size:14px;
+    font-weight:500;
+    color:var(--text-sub);
+    text-decoration:none;
+    border-radius:9px;
+    white-space:nowrap;
+    transition:color .2s, background .2s;
+  }
+  .nav-links a:hover{color:var(--text);background:rgba(91,124,250,.07)}
+  .nav-links a.active{color:var(--accent);background:var(--accent-soft);font-weight:600}
+  .nav-cta{
+    flex-shrink:0;
+    font-size:13px;
+    font-weight:600;
+    color:#fff;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    padding:8px 17px;
+    border-radius:999px;
+    text-decoration:none;
+    box-shadow:0 4px 12px rgba(91,124,250,.28);
+    transition:transform .2s, box-shadow .2s;
+  }
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(91,124,250,.38)}
 
   /* ===== 顶部名片 ===== */
   .profile{
@@ -107,6 +187,7 @@
     padding:28px 30px;
     box-shadow:var(--shadow);
     animation:rise .7s cubic-bezier(.2,.8,.2,1) both;
+    scroll-margin-top:80px;
   }
   .card.full{grid-column:1/-1}
   .card-title{
@@ -230,7 +311,8 @@
   }
 
   @media (max-width:640px){
-    body{padding:28px 14px 44px}
+    body{padding:0 14px 44px}
+    .wrap{padding-top:20px}
     .profile{padding:32px 24px;gap:20px;text-align:center;justify-content:center}
     .profile-main{text-align:center}
     .tags{justify-content:center}
@@ -238,11 +320,36 @@
     .name span{display:block;margin:4px 0 0}
     .grid{grid-template-columns:1fr}
     .card{padding:24px 22px}
+    /* 导航栏紧凑布局 */
+    .nav{margin:0 -14px}
+    .nav-inner{padding:0 14px;height:56px;gap:10px}
+    .nav-brand{font-size:14px}
+    .nav-links a{padding:6px 10px;font-size:13px}
+    .nav-cta{padding:7px 13px;font-size:12px}
+  }
+  @media (max-width:400px){
+    .nav-brand span{display:none}
+    .nav-cta{display:none}
   }
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<!-- 导航栏 -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand"><span class="nav-dot"></span><span>宋子浩</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#hobbies">兴趣</a></li>
+      <li><a href="#games">游戏</a></li>
+      <li><a href="#contact">联系</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">联系我</a>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
 
   <!-- 名片 -->
   <header class="profile">
@@ -262,7 +369,7 @@
   <div class="grid">
 
     <!-- 基本信息 -->
-    <section class="card">
+    <section class="card" id="about">
       <h2 class="card-title">基本信息</h2>
       <div class="info-row">
         <div class="info-label">姓名</div>
@@ -279,7 +386,7 @@
     </section>
 
     <!-- 兴趣爱好 -->
-    <section class="card">
+    <section class="card" id="hobbies">
       <h2 class="card-title">兴趣爱好</h2>
       <div class="hobby-list">
         <div class="hobby">
@@ -307,7 +414,7 @@
     </section>
 
     <!-- 常玩游戏 -->
-    <section class="card full">
+    <section class="card full" id="games">
       <h2 class="card-title">常玩的游戏</h2>
       <div class="games">
         <span class="game">三角洲行动</span>
@@ -317,7 +424,7 @@
     </section>
 
     <!-- 联系方式 -->
-    <section class="card full">
+    <section class="card full" id="contact">
       <h2 class="card-title">联系方式</h2>
       <div class="contact">
         <div class="contact-left">
@@ -338,6 +445,50 @@
 </div>
 
 <script>
+/* ===== 导航栏：滚动状态 + 当前区块高亮 ===== */
+(function(){
+  const nav = document.getElementById('nav');
+  const links = Array.from(document.querySelectorAll('.nav-links a'));
+  const sections = links
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+
+  let lastY = -1;
+
+  function update(){
+    // 页面滚动后加底部分隔线与阴影
+    nav.classList.toggle('scrolled', window.scrollY > 8);
+
+    // 找出当前所处区块（判定线设在导航栏下方 100px）
+    const line = 100;
+    let current = sections[0];
+    for (const s of sections){
+      if (s.getBoundingClientRect().top <= line) current = s;
+    }
+    // 只有页面确实可滚动时才做「到底部」判断，避免小页面误判
+    const doc = document.documentElement;
+    const canScroll = doc.scrollHeight > window.innerHeight + 8;
+    if (canScroll && window.scrollY + window.innerHeight >= doc.scrollHeight - 4){
+      current = sections[sections.length - 1];
+    }
+
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current.id);
+    });
+  }
+
+  function onScroll(){
+    // 位置没变就跳过，避免重复计算
+    if (window.scrollY === lastY) return;
+    lastY = window.scrollY;
+    update();
+  }
+
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+
 function copyQQ(){
   const num = document.getElementById('qq').textContent.trim();
   const btn = document.getElementById('copyBtn');
