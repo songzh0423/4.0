@@ -15,6 +15,9 @@
     --accent-2: #8b6bf0;
     --accent-soft: #eef1fe;
     --shadow: 0 2px 8px rgba(26,29,38,.04), 0 8px 28px rgba(26,29,38,.06);
+    /* 背景图透明度，调大更明显，调小更淡（0 ~ 1） */
+    --bg-photo-opacity: .24;
+    --card-bg: rgba(255,255,255,.9);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -39,6 +42,30 @@
   }
   body::before{width:420px;height:420px;background:#cdd8ff;top:-140px;left:-120px}
   body::after{width:380px;height:380px;background:#e6d9ff;bottom:-160px;right:-100px}
+
+  /* ===== 背景照片层 ===== */
+  .bg-photo{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    background-image:url("wyns.jpg");
+    background-size:cover;
+    background-position:center 26%;
+    background-repeat:no-repeat;
+    opacity:var(--bg-photo-opacity);
+    filter:saturate(.92);
+    pointer-events:none;
+  }
+  /* 边缘向页面底色柔和淡出，避免照片生硬截断 */
+  .bg-photo::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse 78% 62% at 50% 30%,
+      rgba(247,248,252,.06) 0%,
+      rgba(247,248,252,.5) 55%,
+      rgba(247,248,252,.93) 100%);
+  }
 
   .wrap{max-width:860px;margin:0 auto;position:relative;z-index:1;padding-top:32px}
 
@@ -91,6 +118,7 @@
     gap:4px;
     list-style:none;
     margin-left:auto;
+    min-width:0;
     overflow-x:auto;
     scrollbar-width:none;
   }
@@ -124,7 +152,10 @@
 
   /* ===== 顶部名片 ===== */
   .profile{
-    background:var(--card);
+    background:var(--card-bg);
+    -webkit-backdrop-filter:blur(16px) saturate(150%);
+    backdrop-filter:blur(16px) saturate(150%);
+    border:1px solid rgba(255,255,255,.6);
     border-radius:24px;
     padding:44px 40px;
     box-shadow:var(--shadow);
@@ -182,7 +213,10 @@
     margin-top:20px;
   }
   .card{
-    background:var(--card);
+    background:var(--card-bg);
+    -webkit-backdrop-filter:blur(16px) saturate(150%);
+    backdrop-filter:blur(16px) saturate(150%);
+    border:1px solid rgba(255,255,255,.6);
     border-radius:20px;
     padding:28px 30px;
     box-shadow:var(--shadow);
@@ -249,7 +283,7 @@
     font-size:13.5px;
     font-weight:500;
     color:var(--text);
-    background:#fcfcfe;
+    background:rgba(255,255,255,.72);
     transition:.2s;
   }
   .game:hover{
@@ -265,7 +299,7 @@
     align-items:center;
     justify-content:space-between;
     gap:16px;
-    background:linear-gradient(135deg,#f0f3ff,#f7f2ff);
+    background:linear-gradient(135deg,rgba(240,243,255,.92),rgba(247,242,255,.92));
     border-radius:14px;
     padding:18px 20px;
     flex-wrap:wrap;
@@ -314,7 +348,7 @@
     body{padding:0 14px 44px}
     .wrap{padding-top:20px}
     .profile{padding:32px 24px;gap:20px;text-align:center;justify-content:center}
-    .profile-main{text-align:center}
+    .profile-main{text-align:center;min-width:0}
     .tags{justify-content:center}
     .name{font-size:28px}
     .name span{display:block;margin:4px 0 0}
@@ -328,12 +362,16 @@
     .nav-cta{padding:7px 13px;font-size:12px}
   }
   @media (max-width:400px){
-    .nav-brand span{display:none}
     .nav-cta{display:none}
+    .nav-brand{font-size:13.5px}
+    .nav-links a{padding:6px 8px}
   }
 </style>
 </head>
 <body>
+
+<!-- 背景照片（半透明，见 CSS 变量 --bg-photo-opacity） -->
+<div class="bg-photo" aria-hidden="true"></div>
 
 <!-- 导航栏 -->
 <nav class="nav" id="nav">
